@@ -66,7 +66,6 @@ async function init() {
   const res = await fetch('menu.json');
   MENU = await res.json();
   activeCat = MENU.categories[0].key;
-  buildQrGrid();
 
   window.addEventListener('storage', (e) => {
     if (e.key !== ORDERS_KEY) return;
@@ -119,11 +118,6 @@ function showView(name) {
 }
 
 /* ===================== LANDING / TABLE PICK ===================== */
-function buildQrGrid() {
-  const grid = document.getElementById('qrGrid');
-  const pattern = [1,1,1,0,1, 1,0,1,0,1, 1,1,1,0,0, 0,0,1,1,1, 1,0,1,0,1];
-  grid.innerHTML = pattern.map(v => `<span class="${v ? '' : 'off'}"></span>`).join('');
-}
 function renderTableGrid() {
   const grid = document.getElementById('tableGrid');
   const nums = Array.from({ length: 8 }, (_, i) => i + 1);
@@ -292,20 +286,26 @@ function renderCart() {
   }).join('');
 
   const subtotal = cartTotal();
-  const fee = feeForMode();
-  const total = subtotal + fee;
   const nextLabel = orderMode === 'dinein' ? 'Place order'
     : orderMode === 'pickup' ? 'Continue to payment' : 'Continue to address';
   const nextAction = orderMode === 'dinein' ? 'placeOrder()'
     : orderMode === 'pickup' ? "showView('pickup')" : "showView('address')";
+
+  // For pickup, the fee depends on a choice (takeaway vs. sit & eat) made on the
+  // NEXT screen — so we don't commit to a fee number here, just the subtotal.
+  const feeRowsHTML = orderMode === 'pickup'
+    ? `<div class="summary-row"><span>Packaging / service fee</span><span>Confirmed next step</span></div>`
+    : `<div class="summary-row"><span>${feeLabelForMode()}</span><span>${MENU.currency}${feeForMode()}</span></div>`;
+  const totalLabel = orderMode === 'pickup' ? 'Subtotal' : 'Total';
+  const totalValue = orderMode === 'pickup' ? subtotal : subtotal + feeForMode();
 
   content.innerHTML = `
     <div class="cart-list">${rows}</div>
     ${waitSummaryHTML(entries)}
     <div class="summary">
       <div class="summary-row"><span>Subtotal</span><span>${MENU.currency}${subtotal}</span></div>
-      <div class="summary-row"><span>${feeLabelForMode()}</span><span>${MENU.currency}${fee}</span></div>
-      <div class="summary-row total"><span>Total</span><span>${MENU.currency}${total}</span></div>
+      ${feeRowsHTML}
+      <div class="summary-row total"><span>${totalLabel}</span><span>${MENU.currency}${totalValue}</span></div>
       <button class="btn-primary saffron" onclick="${nextAction}">${nextLabel}</button>
     </div>
   `;
@@ -365,9 +365,14 @@ function renderPaymentChips() {
 }
 function pickPaymentMethod(key) { selectedPaymentMethod = key; renderPaymentChips(); }
 function updatePickupPaySummary() {
-  const total = cartTotal() + feeForMode();
-  document.getElementById('pickupPaySummary').innerHTML =
-    `<span>Total to pay</span><span>${MENU.currency}${total}</span>`;
+  const subtotal = cartTotal();
+  const fee = feeForMode();
+  const total = subtotal + fee;
+  document.getElementById('pickupPaySummary').innerHTML = `
+    <div class="summary-row"><span>Subtotal</span><span>${MENU.currency}${subtotal}</span></div>
+    <div class="summary-row"><span>${feeLabelForMode()}</span><span>${MENU.currency}${fee}</span></div>
+    <div class="summary-row total"><span>Total to pay</span><span>${MENU.currency}${total}</span></div>
+  `;
 }
 
 function submitPickupAndPay() {

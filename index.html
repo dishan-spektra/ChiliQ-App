@@ -18,45 +18,50 @@
 
   <!-- LANDING / MODE SELECT -->
   <div class="view active" id="view-landing">
-    <div class="landing-hero">
-      <svg class="chili-logo" viewBox="0 0 120 170" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path d="M68 8 C 62 2, 52 3, 50 10 C 48 17, 56 22, 64 20 C 70 18, 72 12, 68 8 Z" fill="#4C7A5B"/>
-        <path d="M62 16 C 96 24, 104 62, 90 96 C 78 124, 58 146, 38 156 C 30 160, 22 158, 22 150 C 22 142, 30 138, 34 130 C 46 106, 34 84, 42 58 C 47 38, 52 22, 62 16 Z" fill="#D6412C"/>
-        <path d="M58 30 C 76 36, 84 56, 76 74" stroke="#F3A98C" stroke-width="7" fill="none" stroke-linecap="round" opacity="0.55"/>
-      </svg>
-      <p class="app-name">Chili<em>Q</em></p>
-      <div class="qr-chip" aria-hidden="true" id="qrGrid" style="width:80px;height:80px;border-radius:18px;background:var(--ink);display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(5,1fr);padding:10px;gap:3px;box-shadow:var(--shadow);"></div>
+    <div class="landing-header">
+      <div class="logo-row">
+        <div class="logo-box">
+          <svg viewBox="0 0 120 170" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M68 8 C 62 2, 52 3, 50 10 C 48 17, 56 22, 64 20 C 70 18, 72 12, 68 8 Z" fill="#4C7A5B"/>
+            <path d="M62 16 C 96 24, 104 62, 90 96 C 78 124, 58 146, 38 156 C 30 160, 22 158, 22 150 C 22 142, 30 138, 34 130 C 46 106, 34 84, 42 58 C 47 38, 52 22, 62 16 Z" fill="#D6412C"/>
+            <path d="M58 30 C 76 36, 84 56, 76 74" stroke="#F3A98C" stroke-width="7" fill="none" stroke-linecap="round" opacity="0.55"/>
+          </svg>
+        </div>
+        <p class="app-name">Chili<em>Q</em></p>
+      </div>
+      <p class="slogan">Skip the queue. Taste the heat.</p>
+      <span class="veg-badge">🟢 100% vegetarian</span>
+    </div>
+    <div class="landing-body">
       <p class="tag">Order however suits you — at your table, or ahead for pickup and delivery.</p>
-      <span class="veg-badge">🟢 100% vegetarian menu</span>
-      <span class="table-tag">ChiliQ · Live ordering</span>
+      <div class="mode-cards">
+        <div class="mode-card" onclick="chooseMode('dinein')">
+          <div class="mc-icon" style="background:#FCEBD1">🍽️</div>
+          <div class="mc-body">
+            <h3>Dine-in</h3>
+            <p>Pick your table, order, track prep live.</p>
+          </div>
+          <span class="mc-arrow">→</span>
+        </div>
+        <div class="mode-card" onclick="chooseMode('pickup')">
+          <div class="mc-icon" style="background:#F5E6D8">🥡</div>
+          <div class="mc-body">
+            <h3>Pre-order</h3>
+            <p>Order &amp; pay before you arrive — takeaway, or sit and we'll serve it.</p>
+          </div>
+          <span class="mc-arrow">→</span>
+        </div>
+        <div class="mode-card" onclick="chooseMode('delivery')">
+          <div class="mc-icon" style="background:#E4EFE2">🛵</div>
+          <div class="mc-body">
+            <h3>Delivery</h3>
+            <p>We bring it to your address, on your schedule.</p>
+          </div>
+          <span class="mc-arrow">→</span>
+        </div>
+      </div>
+      <button class="staff-link" onclick="launchStaffTab()">Restaurant staff? Open dashboard →</button>
     </div>
-    <div class="mode-cards">
-      <div class="mode-card" onclick="chooseMode('dinein')">
-        <div class="mc-icon" style="background:#FCEBD1">🍽️</div>
-        <div class="mc-body">
-          <h3>Dine-in</h3>
-          <p>Pick your table, order, track prep live.</p>
-        </div>
-        <span class="mc-arrow">→</span>
-      </div>
-      <div class="mode-card" onclick="chooseMode('pickup')">
-        <div class="mc-icon" style="background:#F5E6D8">🥡</div>
-        <div class="mc-body">
-          <h3>Pre-order</h3>
-          <p>Order &amp; pay before you arrive — takeaway, or sit and we'll serve it.</p>
-        </div>
-        <span class="mc-arrow">→</span>
-      </div>
-      <div class="mode-card" onclick="chooseMode('delivery')">
-        <div class="mc-icon" style="background:#E4EFE2">🛵</div>
-        <div class="mc-body">
-          <h3>Delivery</h3>
-          <p>We bring it to your address, on your schedule.</p>
-        </div>
-        <span class="mc-arrow">→</span>
-      </div>
-    </div>
-    <button class="staff-link" onclick="launchStaffTab()">Restaurant staff? Open dashboard →</button>
   </div>
 
   <!-- TABLE SELECT (dine-in only) -->
@@ -195,11 +200,13 @@
 <div class="admin-shell" id="adminApp" style="display:none">
   <div class="admin-topbar">
     <div class="admin-brand">
-      <svg class="chili-logo-sm" viewBox="0 0 120 170" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path d="M68 8 C 62 2, 52 3, 50 10 C 48 17, 56 22, 64 20 C 70 18, 72 12, 68 8 Z" fill="#4C7A5B"/>
-        <path d="M62 16 C 96 24, 104 62, 90 96 C 78 124, 58 146, 38 156 C 30 160, 22 158, 22 150 C 22 142, 30 138, 34 130 C 46 106, 34 84, 42 58 C 47 38, 52 22, 62 16 Z" fill="#D6412C"/>
-        <path d="M58 30 C 76 36, 84 56, 76 74" stroke="#F3A98C" stroke-width="7" fill="none" stroke-linecap="round" opacity="0.55"/>
-      </svg>
+      <div class="logo-box logo-box-sm">
+        <svg viewBox="0 0 120 170" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M68 8 C 62 2, 52 3, 50 10 C 48 17, 56 22, 64 20 C 70 18, 72 12, 68 8 Z" fill="#4C7A5B"/>
+          <path d="M62 16 C 96 24, 104 62, 90 96 C 78 124, 58 146, 38 156 C 30 160, 22 158, 22 150 C 22 142, 30 138, 34 130 C 46 106, 34 84, 42 58 C 47 38, 52 22, 62 16 Z" fill="#D6412C"/>
+          <path d="M58 30 C 76 36, 84 56, 76 74" stroke="#F3A98C" stroke-width="7" fill="none" stroke-linecap="round" opacity="0.55"/>
+        </svg>
+      </div>
       <h1>ChiliQ — Staff dashboard</h1>
     </div>
     <div class="admin-topbar-right">
