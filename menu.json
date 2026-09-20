@@ -1,0 +1,184 @@
+{
+  "restaurant": "ChiliQ",
+  "tagline": "Pure veg — table QR ordering, plus pre-order pickup and delivery.",
+  "currency": "₹",
+  "deliveryFee": 40,
+  "dineinServiceFee": 10,
+  "packagingFee": 15,
+  "categories": [
+    {
+      "key": "express",
+      "label": "Express (peak-hour)",
+      "items": [
+        {
+          "id": "e1",
+          "name": "Paneer Tikka Wrap",
+          "price": 149,
+          "emoji": "🌯",
+          "ready": 4,
+          "tint": "#FCEBD1"
+        },
+        {
+          "id": "e2",
+          "name": "Loaded Veg Bowl",
+          "price": 179,
+          "emoji": "🥗",
+          "ready": 5,
+          "tint": "#E4EFE2"
+        },
+        {
+          "id": "e3",
+          "name": "Chatpata Chickpea Wrap",
+          "price": 189,
+          "emoji": "🌯",
+          "ready": 6,
+          "tint": "#F5E6D8"
+        },
+        {
+          "id": "e4",
+          "name": "Falafel Pita",
+          "price": 159,
+          "emoji": "🥙",
+          "ready": 5,
+          "tint": "#EAF0DE"
+        }
+      ]
+    },
+    {
+      "key": "mains",
+      "label": "Mains",
+      "items": [
+        {
+          "id": "m1",
+          "name": "Paneer Butter Masala + Rice",
+          "price": 249,
+          "emoji": "🍛",
+          "ready": 20,
+          "tint": "#FBE3D4"
+        },
+        {
+          "id": "m2",
+          "name": "Dal Makhani Thali",
+          "price": 219,
+          "emoji": "🍽️",
+          "ready": 20,
+          "tint": "#F0E6D2"
+        },
+        {
+          "id": "m3",
+          "name": "Veg Biryani",
+          "price": 229,
+          "emoji": "🍚",
+          "ready": 18,
+          "tint": "#F4EAD0"
+        },
+        {
+          "id": "m4",
+          "name": "Grilled Veg & Halloumi Salad",
+          "price": 239,
+          "emoji": "🥗",
+          "ready": 15,
+          "tint": "#E6EFE0"
+        }
+      ]
+    },
+    {
+      "key": "sides",
+      "label": "Sides",
+      "items": [
+        {
+          "id": "s1",
+          "name": "Garlic Naan",
+          "price": 49,
+          "emoji": "🫓",
+          "ready": 8,
+          "tint": "#F5EAD2"
+        },
+        {
+          "id": "s2",
+          "name": "Masala Fries",
+          "price": 99,
+          "emoji": "🍟",
+          "ready": 8,
+          "tint": "#FCE8CE"
+        },
+        {
+          "id": "s3",
+          "name": "Paneer Cutlets",
+          "price": 129,
+          "emoji": "🧆",
+          "ready": 10,
+          "tint": "#F7E2C6"
+        },
+        {
+          "id": "s4",
+          "name": "Onion Rings",
+          "price": 89,
+          "emoji": "🧅",
+          "ready": 7,
+          "tint": "#FBEAD6"
+        }
+      ]
+    },
+    {
+      "key": "drinks",
+      "label": "Drinks",
+      "items": [
+        {
+          "id": "d1",
+          "name": "Masala Chaas",
+          "price": 59,
+          "emoji": "🥤",
+          "ready": 3,
+          "tint": "#E7F0E4"
+        },
+        {
+          "id": "d2",
+          "name": "Cold Coffee",
+          "price": 89,
+          "emoji": "☕",
+          "ready": 4,
+          "tint": "#EAD9C6"
+        },
+        {
+          "id": "d3",
+          "name": "Fresh Lime Soda",
+          "price": 49,
+          "emoji": "🍋",
+          "ready": 2,
+          "tint": "#EEF3DD"
+        },
+        {
+          "id": "d4",
+          "name": "Mango Lassi",
+          "price": 79,
+          "emoji": "🥭",
+          "ready": 4,
+          "tint": "#FBE9C7"
+        }
+      ]
+    },
+    {
+      "key": "desserts",
+      "label": "Desserts",
+      "items": [
+        {
+          "id": "x1",
+          "name": "Gulab Jamun (2 pc)",
+          "price": 69,
+          "emoji": "🍮",
+          "ready": 3,
+          "tint": "#F6E0C9"
+        },
+        {
+          "id": "x2",
+          "name": "Chocolate Brownie",
+          "price": 99,
+          "emoji": "🍫",
+          "ready": 5,
+          "tint": "#E9D9CC"
+        }
+      ]
+    }
+  ]
+}

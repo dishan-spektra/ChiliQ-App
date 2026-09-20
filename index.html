@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>ChiliQ</title>
+<meta name="theme-color" content="#E8A33D" />
+<link rel="manifest" href="manifest.json" />
+<link rel="icon" href="icons/icon-192.png" />
+<link rel="apple-touch-icon" href="icons/icon-192.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="stage" id="customerApp">
+
+  <!-- LANDING / MODE SELECT -->
+  <div class="view active" id="view-landing">
+    <div class="landing-hero">
+      <svg class="chili-logo" viewBox="0 0 120 170" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M68 8 C 62 2, 52 3, 50 10 C 48 17, 56 22, 64 20 C 70 18, 72 12, 68 8 Z" fill="#4C7A5B"/>
+        <path d="M62 16 C 96 24, 104 62, 90 96 C 78 124, 58 146, 38 156 C 30 160, 22 158, 22 150 C 22 142, 30 138, 34 130 C 46 106, 34 84, 42 58 C 47 38, 52 22, 62 16 Z" fill="#D6412C"/>
+        <path d="M58 30 C 76 36, 84 56, 76 74" stroke="#F3A98C" stroke-width="7" fill="none" stroke-linecap="round" opacity="0.55"/>
+      </svg>
+      <p class="app-name">Chili<em>Q</em></p>
+      <div class="qr-chip" aria-hidden="true" id="qrGrid" style="width:80px;height:80px;border-radius:18px;background:var(--ink);display:grid;grid-template-columns:repeat(5,1fr);grid-template-rows:repeat(5,1fr);padding:10px;gap:3px;box-shadow:var(--shadow);"></div>
+      <p class="tag">Order however suits you — at your table, or ahead for pickup and delivery.</p>
+      <span class="veg-badge">🟢 100% vegetarian menu</span>
+      <span class="table-tag">ChiliQ · Live ordering</span>
+    </div>
+    <div class="mode-cards">
+      <div class="mode-card" onclick="chooseMode('dinein')">
+        <div class="mc-icon" style="background:#FCEBD1">🍽️</div>
+        <div class="mc-body">
+          <h3>Dine-in</h3>
+          <p>Pick your table, order, track prep live.</p>
+        </div>
+        <span class="mc-arrow">→</span>
+      </div>
+      <div class="mode-card" onclick="chooseMode('pickup')">
+        <div class="mc-icon" style="background:#F5E6D8">🥡</div>
+        <div class="mc-body">
+          <h3>Pre-order</h3>
+          <p>Order &amp; pay before you arrive — takeaway, or sit and we'll serve it.</p>
+        </div>
+        <span class="mc-arrow">→</span>
+      </div>
+      <div class="mode-card" onclick="chooseMode('delivery')">
+        <div class="mc-icon" style="background:#E4EFE2">🛵</div>
+        <div class="mc-body">
+          <h3>Delivery</h3>
+          <p>We bring it to your address, on your schedule.</p>
+        </div>
+        <span class="mc-arrow">→</span>
+      </div>
+    </div>
+    <button class="staff-link" onclick="launchStaffTab()">Restaurant staff? Open dashboard →</button>
+  </div>
+
+  <!-- TABLE SELECT (dine-in only) -->
+  <div class="view" id="view-table">
+    <div class="topbar">
+      <div class="back-btn" onclick="showView('landing')" role="button" aria-label="Back">←</div>
+      <h1>Which table are you at?</h1>
+    </div>
+    <div class="form-wrap">
+      <p style="color:var(--ink-soft);font-size:0.9rem;margin:0 0 4px;">Tap your table number, or type it in if it's not listed.</p>
+      <div class="table-grid" id="tableGrid"></div>
+      <div class="field">
+        <label for="customTable">Other table number</label>
+        <input id="customTable" type="number" min="1" max="200" placeholder="e.g. 24" />
+        <div class="field-error">Enter a valid table number.</div>
+      </div>
+      <button class="btn-primary saffron" onclick="confirmCustomTable()">Continue to menu</button>
+    </div>
+  </div>
+
+  <!-- MENU -->
+  <div class="view" id="view-menu">
+    <div class="topbar">
+      <div class="back-btn" onclick="goBackFromMenu()" role="button" aria-label="Back">←</div>
+      <h1 id="menuTitle">Today's menu</h1>
+    </div>
+    <div class="cat-tabs" id="catTabs"></div>
+    <div class="menu-list" id="menuList"></div>
+    <div class="cart-bar" id="cartBar" onclick="showView('cart')">
+      <div class="cb-left">
+        <span class="cb-count" id="cbCount">0 items</span>
+        <span class="cb-total" id="cbTotal">₹0</span>
+      </div>
+      <span class="cb-cta">View cart →</span>
+    </div>
+  </div>
+
+  <!-- CART -->
+  <div class="view" id="view-cart">
+    <div class="topbar">
+      <div class="back-btn" onclick="showView('menu')" role="button" aria-label="Back">←</div>
+      <h1>Your order</h1>
+    </div>
+    <div id="cartContent"></div>
+  </div>
+
+  <!-- PICKUP: ARRIVAL TIME + PREPAYMENT -->
+  <div class="view" id="view-pickup">
+    <div class="topbar">
+      <div class="back-btn" onclick="showView('cart')" role="button" aria-label="Back">←</div>
+      <h1>Pre-order</h1>
+    </div>
+    <div class="form-wrap">
+      <div class="field">
+        <label>When will you get here?</label>
+        <div class="time-chips" id="pickupTimeChips"></div>
+        <p class="hint-text">We'll time the kitchen so it's ready right when you arrive.</p>
+      </div>
+      <div class="field">
+        <label>When you arrive, will you...</label>
+        <div class="time-chips" id="diningOptionChips"></div>
+      </div>
+      <div class="field">
+        <label>Pay now to skip the counter</label>
+        <div class="time-chips" id="paymentChips"></div>
+      </div>
+      <div class="pay-summary" id="pickupPaySummary"></div>
+      <button class="btn-primary saffron" onclick="submitPickupAndPay()">Pay &amp; confirm order</button>
+      <p class="hint-text center">This is a prototype — no real payment is charged.</p>
+    </div>
+  </div>
+
+  <!-- DELIVERY ADDRESS -->
+  <div class="view" id="view-address">
+    <div class="topbar">
+      <div class="back-btn" onclick="showView('cart')" role="button" aria-label="Back">←</div>
+      <h1>Delivery details</h1>
+    </div>
+    <div class="form-wrap">
+      <div class="field">
+        <label>When do you want this?</label>
+        <div class="time-chips" id="timeChips"></div>
+      </div>
+      <div class="field">
+        <label for="dName">Full name</label>
+        <input id="dName" type="text" placeholder="e.g. Riya Sharma" />
+        <div class="field-error">Please enter your name.</div>
+      </div>
+      <div class="field">
+        <label for="dPhone">Phone number</label>
+        <input id="dPhone" type="tel" placeholder="e.g. 9876543210" />
+        <div class="field-error">Enter a valid phone number (7–15 digits).</div>
+      </div>
+      <div class="field">
+        <label for="dAddress">Delivery address</label>
+        <textarea id="dAddress" placeholder="House/flat, street, area, city"></textarea>
+        <div class="field-error">Please enter a delivery address.</div>
+      </div>
+      <div class="field">
+        <label for="dNotes">Notes for delivery partner (optional)</label>
+        <textarea id="dNotes" placeholder="e.g. Ring the bell twice"></textarea>
+      </div>
+      <button class="btn-primary saffron" onclick="submitAddressAndPlaceOrder()">Confirm &amp; place order</button>
+    </div>
+  </div>
+
+  <!-- STATUS -->
+  <div class="view" id="view-status">
+    <div class="topbar">
+      <div class="back-btn" onclick="showView('landing')" role="button" aria-label="Home">←</div>
+      <h1>Order status</h1>
+    </div>
+    <div class="ticket-wrap">
+      <div class="ticket">
+        <div class="ticket-body">
+          <div class="ticket-label">ORDER NUMBER</div>
+          <div class="ticket-number" id="orderNum">#000</div>
+          <div class="ticket-sub" id="ticketSub"></div>
+          <span class="paid-badge" id="paidBadge" style="display:none">✓ Paid</span>
+          <div class="ticket-eta" id="ticketEta"></div>
+        </div>
+        <div class="ticket-items" id="ticketItems"></div>
+        <div class="ticket-total-row"><span>Total</span><span id="ticketTotal">₹0</span></div>
+        <div class="ticket-perf"></div>
+      </div>
+      <div class="stepper" id="stepper"></div>
+      <button class="btn-ghost new-order-btn" onclick="resetOrder()">Start a new order</button>
+    </div>
+  </div>
+
+  <div class="call-staff-fab" id="callStaffFab" onclick="callStaff()">🔔 Call staff</div>
+  <div class="toast" id="toast"></div>
+</div>
+
+<!-- ===================== STAFF / ADMIN DASHBOARD ===================== -->
+<div class="admin-shell" id="adminApp" style="display:none">
+  <div class="admin-topbar">
+    <div class="admin-brand">
+      <svg class="chili-logo-sm" viewBox="0 0 120 170" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M68 8 C 62 2, 52 3, 50 10 C 48 17, 56 22, 64 20 C 70 18, 72 12, 68 8 Z" fill="#4C7A5B"/>
+        <path d="M62 16 C 96 24, 104 62, 90 96 C 78 124, 58 146, 38 156 C 30 160, 22 158, 22 150 C 22 142, 30 138, 34 130 C 46 106, 34 84, 42 58 C 47 38, 52 22, 62 16 Z" fill="#D6412C"/>
+        <path d="M58 30 C 76 36, 84 56, 76 74" stroke="#F3A98C" stroke-width="7" fill="none" stroke-linecap="round" opacity="0.55"/>
+      </svg>
+      <h1>ChiliQ — Staff dashboard</h1>
+    </div>
+    <div class="admin-topbar-right">
+      <span class="admin-count" id="adminCount">0 active</span>
+      <button class="btn-ghost admin-exit" onclick="openCustomerView()">← Back to customer app</button>
+    </div>
+  </div>
+  <p class="admin-sub">Orders placed from the customer app appear here instantly. Accept a new order to move it into the kitchen, then advance it stage by stage — the customer's ticket updates live.</p>
+  <div class="admin-board" id="adminBoard"></div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
